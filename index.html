@@ -3,9 +3,299 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xpath By Shreenibas</title>
+   
+  <title>XPath Practice Playground By Shreenibas</title>
+  <style>
+    :root { font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; }
+    body { margin: 0; padding: 24px; background: #0b1220; color: #e9edf6; }
+    h1, h2 { margin: 16px 0 8px; }
+    a { color: #9fd0ff; }
+    .card { background: #131c2e; border: 1px solid #233150; padding: 16px; border-radius: 14px; box-shadow: 0 8px 24px rgba(0,0,0,0.25); margin-bottom: 18px; }
+    .grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .btn { padding: 10px 16px; border-radius: 10px; border: 0; background: #2b78ff; color: white; font-weight: 600; cursor: pointer; }
+    .btn[disabled] { background: #3f4b6a; cursor: not-allowed; }
+    input, select, textarea { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid #223055; background: #0f1728; color: #e9edf6; }
+    label { display:block; margin-bottom:6px; }
+    .row { display: flex; align-items: center; gap: 12px; }
+    .menu { list-style: none; padding: 0; margin: 0; }
+    .menu > li { padding: 10px 12px; border-radius: 10px; cursor: pointer; }
+    .menu > li:hover { background: #1a2742; }
+    .chip { display:inline-block; padding: 4px 10px; border-radius: 999px; background: #1b2a46; border: 1px solid #2b3b61; }
+    .visually-hidden { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #223055; padding: 8px 10px; text-align: left; }
+    thead { background: #111a2c; }
+
+    .modal-backdrop { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(2, 8, 23, 0.6); }
+    .modal { width: min(520px, 92vw); background: #0f1728; border: 1px solid #2b3b61; border-radius: 16px; padding: 16px; }
+    .modal[open] ~ .modal-backdrop { display: flex; }
+
+    .tag { padding: 4px 8px; border: 1px dashed #2b3b61; border-radius: 6px; }
+    .btn-secondary { background: #1a2742; }
+
+    .panel { border: 1px dashed #2b3b61; padding: 12px; border-radius: 12px; }
+    .hidden { display:none; }
+  </style>
 </head>
 <body>
-    <h1>This page is all about xpath</h1>
+  <header class="card">
+    <h1 data-testid="page-title">XPath Practice Playground</h1>
+    <p>Use this single page to practice XPath location strategies. Many elements are intentionally quirky (extra spaces, dynamic ids, nested structures, aria attributes, etc.).</p>
+    <p class="visually-hidden" aria-live="polite" id="sr-status">Screen reader status region</p>
+  </header>
+
+  <!-- LOGIN / FORM AREA -->
+  <section class="grid">
+    <div class="card" id="login-card">
+      <h2>Login Form</h2>
+      <form id="login-form" aria-label="Login form">
+        <div class="row">
+          <div style="flex:1">
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text" placeholder="Enter username" data-testid="username" />
+          </div>
+          <div style="flex:1">
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" placeholder="Enter password" />
+          </div>
+        </div>
+        <div class="row" style="margin-top:12px">
+          <label><input id="remember" type="checkbox" aria-pressed="false" /> Remember me</label>
+          <span class="chip btn-primary">chip-example</span>
+        </div>
+        <div class="row" style="margin-top:12px">
+          <!-- note the extra spaces around text -->
+          <button id="login-btn" class="btn" type="button">  Login  </button>
+          <button class="btn btn-secondary" type="button" disabled data-qa="secondary-action">Save changes</button>
+          <a id="forgot" href="#" role="button" aria-label="Forgot Password Link">Forgot password?</a>
+        </div>
+      </form>
+    </div>
+
+    <div class="card" id="menu-card">
+      <h2>Main Menu</h2>
+      <ul id="main-menu" class="menu">
+        <li><a href="#" class="menu-link"><span>Admin</span></a></li>
+        <li><a href="#" class="menu-link"><span>PIM</span></a></li>
+        <li><a href="#" class="menu-link"><span>Leave</span></a></li>
+        <li><a href="#" class="menu-link"><span>Time</span></a></li>
+        <li><a href="#" class="menu-link"><span>Recruitment</span></a></li>
+      </ul>
+      <div class="tag" id="menu-info">Menu Count: <span id="menu-count">5</span></div>
+    </div>
+
+    <div class="card" id="search-card">
+      <h2>Search Panel</h2>
+      <div class="row">
+        <label for="q">Search</label>
+        <input id="q" name="q" type="search" placeholder="Search" aria-label="Search" />
+        <button class="btn" id="search-btn">Search</button>
+      </div>
+      <p class="panel">Try case-insensitive text matching, e.g., link below contains the word <em>privacy</em> in mixed case.</p>
+      <p>
+        <a id="policyLink" href="/legal/privacy-policy" data-testid="link-policy">Read our PriVaCy policy</a>
+      </p>
+      <p>
+        <a id="guidePdf" href="/files/user-guide.pdf">Download Guide (PDF)</a>
+      </p>
+      <p>
+        <img id="logoImg" src="/assets/logo-dark.png" alt="Logo" />
+      </p>
+    </div>
+  </section>
+
+  <!-- TABLE / LISTS -->
+  <section class="card" id="orders-card">
+    <h2>Orders Table</h2>
+    <table id="orders">
+      <thead>
+        <tr>
+          <th>Invoice</th>
+          <th>Product</th>
+          <th data-col="price">Price</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>INV-120</td>
+          <td>Keyboard</td>
+          <td data-col="price">49.00</td>
+          <td><button class="btn btn-pay">Pay</button></td>
+        </tr>
+        <tr>
+          <td>INV-121</td>
+          <td>Laptop</td>
+          <td data-col="price">1099.00</td>
+          <td><button class="btn btn-pay">Pay</button></td>
+        </tr>
+        <tr>
+          <td>INV-123</td>
+          <td>Monitor</td>
+          <td data-col="price">299.00</td>
+          <td><button class="btn btn-pay">Pay</button></td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- NESTED / HIERARCHY EXAMPLES -->
+  <section class="grid">
+    <div class="card" id="profile-card">
+      <h2>Profile Section</h2>
+      <div id="profile" class="panel">
+        <h3>Profile</h3>
+        <div class="row">
+          <label> Email </label>
+          <input type="email" placeholder="Enter email" />
+        </div>
+        <div class="row">
+          <label> Country </label>
+          <select>
+            <option>India</option>
+            <option>USA</option>
+            <option>UK</option>
+          </select>
+        </div>
+        <div class="row">
+          <span class="price">$199</span>
+          <button class="btn">Edit</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" id="tokens-card">
+      <h2>Class Token Matching</h2>
+      <div class="btn btn-primary" id="cta-primary">Primary CTA</div>
+      <div class="btn outline btn-secondary" id="cta-secondary">Secondary CTA</div>
+      <div class="chip" id="chip-1">rounded chip</div>
+      <div class="chip x-small" id="chip-2">tiny chip</div>
+    </div>
+
+    <div class="card" id="aria-card">
+      <h2>ARIA Attributes</h2>
+      <button class="btn" role="switch" aria-checked="false" id="emailNotif">Email Notifications</button>
+      <button class="btn" role="switch" aria-checked="true" id="smsNotif">SMS Notifications</button>
+    </div>
+  </section>
+
+  <!-- SVG / LOCAL-NAME() EXAMPLE -->
+  <section class="card" id="svg-card">
+    <h2>SVG Icon</h2>
+    <svg id="icon-star" viewBox="0 0 24 24" width="64" height="64" aria-hidden="true">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 22 12 18.56 5.82 22 7 14.14l-5-4.87 6.91-1.01L12 2z"></path>
+    </svg>
+    <p class="tag">XPath hint: use *[local-name()='svg']/*[local-name()='path']</p>
+  </section>
+
+  <!-- IFRAME EXAMPLE -->
+  <section class="card" id="iframe-card">
+    <h2>Embedded Frame</h2>
+    <p>Switch to frame first; then locate inside it.</p>
+    <iframe id="innerFrame" title="Inner Demo Frame" style="width:100%; height:180px; border:1px solid #223055; border-radius:12px;"
+      srcdoc='<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><style>body{margin:8px;font-family:system-ui;background:#0d1426;color:#e9edf6}input{padding:6px;border-radius:8px;border:1px solid #223055;background:#0f1728;color:#e9edf6}</style></head><body> 
+        <h4 id="frameTitle">Frame Content</h4>
+        <label>Frame Field</label>
+        <input id="frameInput" type="text" placeholder="In frame" />
+        <button id="frameBtn">Save</button>
+      </body></html>'>
+    </iframe>
+  </section>
+
+  <!-- DYNAMIC IDS / GENERATED CONTENT -->
+  <section class="card" id="dynamic-card">
+    <h2>Dynamic IDs</h2>
+    <div class="row">
+      <label for="dyn-input">Dynamic Input</label>
+      <input id="dyn-input" type="text" placeholder="Will get dynamic id too" />
+    </div>
+    <div id="dynamic-container"></div>
+    <p class="tag">XPath hint: starts-with(@id,'user_') or contains(@id,'react-select')</p>
+  </section>
+
+  <!-- MODAL DIALOG (role=dialog) -->
+  <section class="card" id="modal-card">
+    <h2>Modal Example</h2>
+    <button class="btn" id="openModalBtn">Open Confirm</button>
+
+    <dialog id="confirmDialog" aria-label="Confirm">
+      <h2>Confirm</h2>
+      <p>Are you sure you want to delete?</p>
+      <div class="row">
+        <button class="btn btn-secondary" id="cancelDel">Cancel</button>
+        <button class="btn" id="deleteBtn">Delete</button>
+      </div>
+    </dialog>
+    <div class="modal-backdrop" id="backdrop"></div>
+  </section>
+
+  <!-- SHADOW DOM NOTE (XPath cannot pierce) -->
+  <section class="card" id="shadow-card">
+    <h2>Shadow DOM</h2>
+    <shadow-host id="user-card"></shadow-host>
+    <p class="tag">Note: XPath cannot pierce shadow DOM. Use JS/shadowRoot APIs.</p>
+  </section>
+
+  <footer class="card">
+    <h2>Helpful Sample XPaths (comments)</h2>
+    <ul>
+      <li>//button[normalize-space()="Login"]</li>
+      <li>//ul[@id='main-menu']//li[1] | (//ul[@id='main-menu']//li)[last()]</li>
+      <li>//tr[td[normalize-space()='Laptop']]/td[@data-col='price']</li>
+      <li>//label[normalize-space()='Email']/following-sibling::input[1]</li>
+      <li>//*[@aria-label='Search']</li>
+      <li>//*[contains(concat(' ', normalize-space(@class), ' '), ' btn-primary ')]</li>
+      <li>//*[local-name()='svg']/*[local-name()='path']</li>
+      <li>//a[substring(@href, string-length(@href)-3) = '.pdf']</li>
+    </ul>
+  </footer>
+
+  <script>
+    // dynamic ids
+    const rand = Math.floor(Math.random() * 100000);
+    const dyn = document.getElementById('dyn-input');
+    dyn.id = 'user_' + rand + '_input';
+
+    // generate some dynamic options (react-select like)
+    const container = document.getElementById('dynamic-container');
+    const selectDiv = document.createElement('div');
+    selectDiv.id = 'react-select-' + rand + '-input';
+    selectDiv.setAttribute('role', 'combobox');
+    selectDiv.className = 'panel';
+    selectDiv.textContent = 'Dynamic combobox #' + rand;
+    container.appendChild(selectDiv);
+
+    // modal open/close wiring
+    const dlg = document.getElementById('confirmDialog');
+    const backdrop = document.getElementById('backdrop');
+    document.getElementById('openModalBtn').addEventListener('click', () => { dlg.showModal(); backdrop.style.display='flex'; });
+    document.getElementById('cancelDel').addEventListener('click', () => { dlg.close(); backdrop.style.display='none'; });
+    document.getElementById('deleteBtn').addEventListener('click', () => { alert('Deleted'); dlg.close(); backdrop.style.display='none'; });
+
+    // simple status updates for screen readers
+    const status = document.getElementById('sr-status');
+    document.getElementById('search-btn').addEventListener('click', () => { status.textContent = 'Search triggered at ' + new Date().toLocaleTimeString(); });
+
+    // Shadow DOM custom element
+    class ShadowHost extends HTMLElement {
+      constructor(){ super(); const root = this.attachShadow({mode:'open'});
+        const wrapper = document.createElement('div');
+        wrapper.innerHTML = `
+          <style>
+            .card { border: 1px solid #2b3b61; padding: 10px; border-radius: 12px; background:#0f1728; color:#e9edf6 }
+            .name { font-weight: 700; }
+          </style>
+          <div class="card">
+            <div class="name">Shadow User</div>
+            <label>Secret Field</label>
+            <input id="shadowInput" placeholder="inside shadow" />
+            <button id="shadowBtn">Save</button>
+          </div>`;
+        root.appendChild(wrapper);
+      }
+    }
+    customElements.define('shadow-host', ShadowHost);
+  </script>
 </body>
 </html>
